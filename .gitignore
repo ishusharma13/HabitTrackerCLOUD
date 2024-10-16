@@ -1,0 +1,51 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+/node_modules
+/.pnp
+.pnp.js
+
+# Build directories
+/dist
+/build
+/.next
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Cache files
+/.cache
+/tmp
+
+# VSCode specific
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# MacOS files
+.DS_Store
+
+# Optional npm cache directory
+.npm
+
+# Git folder ignore
+.git
+
+# Ignore debug file output
+*.log
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Coverage and testing
+/coverage
