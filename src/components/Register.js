@@ -10,19 +10,23 @@ const Register = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  // Use environment variable or fallback to localhost for API URL
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5001/api/habits/register', {
+      const response = await axios.post(`${API_BASE_URL}/api/habits/register`, {
         username,
         email,
         password,
       });
 
-      alert(response.data.message);  // Show success message
-      navigate('/login');  // Redirect to Login
+      alert(response.data.message); // Show success message
+      navigate('/login'); // Redirect to Login
     } catch (err) {
+      console.error('Registration error:', err.response?.data || err.message); // Log error for debugging
       setError('Registration failed. Please try again.');
     }
   };
@@ -60,4 +64,3 @@ const Register = () => {
 };
 
 export default Register;
-

@@ -1,4 +1,3 @@
-# frontend-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,6 +15,9 @@ spec:
       containers:
       - name: frontend
         image: asia-south1-docker.pkg.dev/habit-trackerrr-2047/habit-tracker-repo/frontend:v1
+        env:
+        - name: REACT_APP_API_URL
+          value: "http://35.244.17.203:80"  # External IP of backend-service
         ports:
         - containerPort: 80
 ---

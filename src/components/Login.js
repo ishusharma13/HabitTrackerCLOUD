@@ -8,18 +8,26 @@ const Login = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  // Use environment variable or fallback to localhost for API URL
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/habits/login', { email, password });
-      console.log('Login response:', res.data);  // Log response for debugging
+      const res = await axios.post(`${API_BASE_URL}/api/habits/login`, {
+        email,
+        password,
+      });
+      console.log('Login response:', res.data); // Log response for debugging
+
       const { token } = res.data;
       localStorage.setItem('token', token);
       localStorage.setItem('isAuthenticated', 'true');
       onLogin();
       navigate('/dashboard');
     } catch (err) {
-      console.error('Login error:', err.response?.data || err.message);  // Log detailed error
+      console.error('Login error:', err.response?.data || err.message); // Log detailed error
       setError(err.response?.data?.message || 'Something went wrong');
     }
   };
