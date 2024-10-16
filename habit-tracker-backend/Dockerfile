@@ -1,21 +1,21 @@
-# Backend Dockerfile
-# Use a lightweight Node.js image
+# Use the official Node.js image (Alpine version for a smaller image size)
 FROM node:18-alpine
 
-# Set the working directory in the container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to install dependencies
+# Copy package files and install dependencies
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy the rest of the backend code
+# Copy the remaining application code
 COPY . .
 
-# Expose the backend server port
-EXPOSE 5001
+# Make sure the main server file (server.js) is executable
+RUN chmod +x /app/server.js
 
-# Start the backend server
+# Expose the internal port used by your backend
+EXPOSE 5000 
+
+# Command to start the backend server
 CMD ["node", "server.js"]
