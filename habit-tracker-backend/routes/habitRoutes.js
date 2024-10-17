@@ -91,6 +91,42 @@ router.delete('/delete/:id', authMiddleware, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+// Add habit Route
+const Habit = require('../models/Habit'); // Import Habit model
+
+// POST route to add a new habit
+router.post('/habits', authMiddleware, async (req, res) => {
+  const { name } = req.body;
+
+  try {
+    const newHabit = new Habit({
+      user: req.user.id, // Use req.user.id (from auth middleware)
+      name,
+      completedDays: Array(31).fill(false), // Initialize days to false
+    });
+
+    const savedHabit = await newHabit.save();
+    res.status(201).json(savedHabit); // Respond with the newly created habit
+  } catch (err) {
+    console.error('Error creating habit:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// GET route to fetch all habits for the logged-in user
+router.get('/habits', authMiddleware, async (req, res) => {
+  try {
+    const habits = await Habit.find({ user: req.user.id }); // Query by user field
+    res.json(habits);
+  } catch (error) {
+    console.error('Error fetching habits:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 
 module.exports = router;
+
+
 

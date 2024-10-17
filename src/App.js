@@ -1,6 +1,6 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -8,9 +8,9 @@ import Notes from './components/Notes';
 import Register from './components/Register';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(null); // Start with null to show loading state.
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-  // Check authentication status on component mount.
+  // Check authentication status on component mount
   useEffect(() => {
     const authStatus = localStorage.getItem('isAuthenticated');
     setIsAuthenticated(authStatus === 'true');
@@ -27,7 +27,6 @@ function App() {
   };
 
   if (isAuthenticated === null) {
-    // Optional: Show a loading indicator while checking authentication.
     return <div>Loading...</div>;
   }
 
@@ -36,21 +35,15 @@ function App() {
       {isAuthenticated && (
         <Navigation isAuthenticated={isAuthenticated} onLogout={handleLogout} />
       )}
-
       <Routes>
-        {/* Redirect to dashboard if authenticated; otherwise, login */}
         <Route
           path="/"
           element={
             isAuthenticated ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />
           }
         />
-        
-        {/* Public routes */}
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register />} />
-
-        {/* Protected routes */}
         <Route
           path="/dashboard"
           element={
@@ -63,8 +56,6 @@ function App() {
             isAuthenticated ? <Notes /> : <Navigate to="/login" replace />
           }
         />
-
-        {/* Catch-all route */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
