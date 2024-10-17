@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: asia-south1-docker.pkg.dev/habit-trackerrr-2047/habit-tracker-repo/frontend:v241
+        image: asia-south1-docker.pkg.dev/habit-trackerrr-2047/habit-tracker-repo/frontend:v421
         imagePullPolicy: Always
         ports:
         - containerPort: 80
