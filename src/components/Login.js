@@ -1,3 +1,4 @@
+// src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -9,13 +10,13 @@ const Login = ({ onLogin }) => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Use environment variable or fallback to localhost for API URL
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+  // Get API URL from environment variable
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/habits/login`, {
+      const res = await axios.post(`${API_BASE_URL}/login`, {
         email,
         password,
       });
@@ -62,6 +63,3 @@ const Login = ({ onLogin }) => {
 };
 
 export default Login;
-
-
-

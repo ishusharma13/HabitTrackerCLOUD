@@ -1,32 +1,40 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');  // Import cors
-const habitRoutes = require('./routes/habitRoutes');
-require('dotenv').config();
+const cors = require('cors');
+
+require('dotenv').config({ path: './.env' });
+
 
 const app = express();
 
-// Middleware
+// CORS Middleware
+const allowedOrigins = process.env.CORS_ORIGIN || '*';
 app.use(cors({
-  origin: 'http://localhost:3000',  // Allow requests only from your frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow only specific HTTP methods
-  credentials: true,  // Allow credentials if needed
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
 }));
 
-app.use(express.json());  // Parse JSON requests
+app.use(express.json()); // Parse JSON requests
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // Routes
-app.use('/api/habits', habitRoutes);  // Register habit routes
+const habitRoutes = require('./routes/habitRoutes');  // Import routes
+
+// Remove the `/api/habits` prefix
+app.use('/', habitRoutes);
+
 
 // Start the server
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+console.log('Port used:', PORT);
 
-console.log('MongoDB URI:', process.env.MONGO_URI);
 
-
+// Debug log to confirm environment variables
+console.log('MongoDB URI:', process.env.MONGODB_URI);
+console.log('CORS Origin:', allowedOrigins);
